@@ -4,6 +4,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ManagementUserController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\DashboardController;
+
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -36,6 +37,7 @@ route::get('/gambar', function(){
 	return view('gambar');
 });
 
+//route::get('user', 'ManagementUserController@index');
 route::resource('/user', ManagementUserController::class);
 
 Route::get("/home", function(){
@@ -46,17 +48,9 @@ Route::resource('/home', HomeController::class);
 
 Route::resource('/dashboard', DashboardController::class);
 
+
 Auth::routes();
 
-Route::group(['namespace' => 'frontend'], function()
-	{
-		Route::get('/', 'HomeController@index');
-		Route::resource('home', 'HomeController');
-	});
+Route::get('/dashboard', [App\Http\Controllers\DashboardController::class, 'index'])->name('dashboard');
 
-Route::group(['milddleware' => ['web','auth']], function() {
-	Route::group(['namespace' => 'Backend'], function()
-		{
-			Route::resource('dashboard', 'DashboardController');
-		});
-});
+
